@@ -4,7 +4,7 @@ Hi! My name is **Arif Ahmad**, I have created this project to learn some new fea
 
 # Prerequisite
 
-Must have basic knowledge of **Node**, **React**, **Express**, **MongoDB** . _I have made tutorial on each technology on YouTube , make sure to check it out_.
+Must have basic knowledge of **Node**, **React**, **Express**, **MongoDB** .
 
 # Install Dependencies
 

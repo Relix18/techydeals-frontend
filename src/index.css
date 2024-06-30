@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+html,
+body {
+  font-family: Futura;
+}
+
+@font-face {
+  font-family: Futura;
+  font-weight: 400;
+  src: url(./assets/fonts/FuturaBT-Medium.woff),
+    url(./assets/fonts/FuturaBT-Medium.woff2);
+}

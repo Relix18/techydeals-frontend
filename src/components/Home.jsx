@@ -59,7 +59,6 @@ export default function Home() {
 
   const newProduct = data?.newArrivals.slice(0, 4);
   const featuredProduct = products?.products.slice(0, 4);
-  console.log(featuredProduct);
 
   const priceFormat = new Intl.NumberFormat("en-IN", {
     currency: "INR",
@@ -73,7 +72,7 @@ export default function Home() {
 
   const addToCartHandler = (product) => {
     if (currentUser) {
-      console.log(currentUser);
+      currentUser;
       if (items?.cart.findIndex((i) => i.product._id === product._id) < 0) {
         const newItem = { productId: product._id, quantity: 1 };
         addItem(newItem);
@@ -262,7 +261,7 @@ export default function Home() {
                       </h5>
                     </a>
                     <div className="mt-2 mb-5 flex items-center justify-between">
-                      <p>
+                      <p className="flex items-center sm:flex-row flex-col">
                         <span className="text-md sm:text-xl font-bold text-slate-900">
                           {priceFormat.format(
                             Math.floor(
@@ -272,7 +271,7 @@ export default function Home() {
                             )
                           )}
                         </span>
-                        <span className="sm:flex block text-sm text-slate-900 line-through sm:pl-2">
+                        <span className=" text-sm text-slate-900 line-through sm:pl-2">
                           {priceFormat.format(product.price)}
                         </span>
                       </p>

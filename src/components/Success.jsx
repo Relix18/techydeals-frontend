@@ -184,7 +184,6 @@ const Success = () => {
                             </p>
                             <p className="font-medium text-sm leading-6 whitespace-nowrap py-0.5 px-3 rounded-full lg:mt-3 bg-blue-100 text-blue-600">
                               {data.orderStatus}
-                              {console.log(data)}
                             </p>
                           </div>
                         </div>

@@ -20,8 +20,6 @@ const EditEmail = () => {
     if (!user) {
       navigate("/");
     }
-
-    console.log(user);
   }, [user, navigate]);
 
   const onSubmit = (data) => {

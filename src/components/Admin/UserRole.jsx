@@ -18,8 +18,6 @@ const UserRole = () => {
 
   const secure = import.meta.env.VITE_SECURE_MAIL;
 
-  console.log(user?.user);
-
   const {
     register,
     handleSubmit,

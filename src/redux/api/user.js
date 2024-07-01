@@ -36,6 +36,22 @@ export const user = createApi({
       }),
       providesTags: ["User"],
     }),
+    forgotPassword: builder.mutation({
+      query: (data) => ({
+        url: "password/forgot",
+        method: "POST",
+        credentials: "include",
+        body: data,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: `password/reset/${data.token}`,
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+    }),
     logoutUser: builder.mutation({
       query: () => ({
         url: "logout",
@@ -133,6 +149,8 @@ export const {
   useVerifyUserQuery,
   useGetUserQuery,
   useGetUserAddressQuery,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
   useAddAddressMutation,
   useLogoutUserMutation,
   useUpdateProfileMutation,

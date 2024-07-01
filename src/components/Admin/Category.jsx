@@ -127,7 +127,6 @@ const Category = () => {
               <form
                 noValidate
                 onSubmit={handleSubmit((data) => {
-                  console.log(data);
                   createCategory(data);
                   reset();
                 })}

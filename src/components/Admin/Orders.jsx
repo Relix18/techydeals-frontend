@@ -47,7 +47,6 @@ const Orders = () => {
               value === "Canceled" && "text-red-500"
             )}
           >
-            {console.log(value)}
             {value}
           </span>
         ),
@@ -242,7 +241,7 @@ const Orders = () => {
                               .includes(search.toLowerCase())
                       )
                       .map((row) => {
-                        console.log(row.original.name);
+                        row.original.name;
 
                         prepareRow(row);
                         return (
@@ -261,7 +260,7 @@ const Orders = () => {
                       })}
                     {orders?.orders.map((item, i) => (
                       <tr className="mobile" key={i}>
-                        {console.log(item)}
+                        {item}
                         <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left">
                           <div className="mt-1 flex flex-col text-xs font-medium md:hidden">
                             <div className="flex items-center">

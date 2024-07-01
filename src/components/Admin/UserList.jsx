@@ -11,9 +11,10 @@ import {
 import clsx from "clsx";
 import { Dialog, Transition } from "@headlessui/react";
 import { toast } from "react-hot-toast";
+import Loader from "../utils/Loader";
 
 const UserList = () => {
-  const { data: users } = useGetAllUsersQuery();
+  const { data: users, isLoading } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
@@ -176,160 +177,173 @@ const UserList = () => {
             <FaBars className="text-xl" />
           </div>
           <SidebarMobile isOpen={show} />
-          {!show && (
-            <div className="w-screen bg-gray-100 h-screen">
-              <div className="mx-auto max-w-screen-xl px-2 py-10">
-                <div className="mt-2 overflow-hidden rounded-xl bg-white px-6 shadow lg:px-4">
-                  <div className="mt-4 mb-2 space-y-3">
-                    <h1 className=" text-3xl font-bold text-gray-700">
-                      All Users
-                    </h1>
-                  </div>
-                  <div className="border-b md:hidden"></div>
-                  <input
-                    type="text"
-                    placeholder="Search User Name"
-                    id="name"
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="mt-4 hidden md:flex focus:border-none focus:ring-green-500 h-12 w-full rounded-md bg-gray-100 px-3 border-gray-300"
-                  />
-                  <table
-                    className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2"
-                    {...getTableProps()}
-                  >
-                    <thead className="hidden border-b md:table-header-group">
-                      {headerGroups.map((headerGroup) => (
-                        <tr
-                          key={headerGroup.id}
-                          {...headerGroup.getHeaderGroupProps()}
-                        >
-                          {headerGroup.headers.map((column) => (
-                            <td
-                              className="whitespace-normal py-4 text-sm font-semibold text-gray-800 sm:px-3"
-                              key={column.id}
-                              {...column.getHeaderProps(
-                                column.getSortByToggleProps()
-                              )}
-                            >
-                              {column.render("Header")}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </thead>
-                    <tbody
-                      {...getTableBodyProps()}
-                      className="bg-white lg:border-gray-300"
-                    >
-                      {page
-                        .filter((row) =>
-                          search.toLowerCase() === ""
-                            ? row
-                            : row.original.name
-                                .toLowerCase()
-                                .includes(search.toLowerCase())
-                        )
-                        .map((row) => {
-                          prepareRow(row);
-                          return (
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              {!show && (
+                <div className="w-screen bg-gray-100">
+                  <div className="mx-auto max-w-screen-xl px-2 py-10">
+                    <div className="mt-2 overflow-hidden rounded-xl bg-white px-6 shadow lg:px-4">
+                      <div className="mt-4 mb-2 space-y-3">
+                        <h1 className=" text-3xl font-bold text-gray-700">
+                          All Users
+                        </h1>
+                      </div>
+                      <div className="border-b md:hidden"></div>
+                      <input
+                        type="text"
+                        placeholder="Search User Name"
+                        id="name"
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="mt-4 hidden md:flex focus:border-none focus:ring-green-500 h-12 w-full rounded-md bg-gray-100 px-3 border-gray-300"
+                      />
+                      <table
+                        className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2"
+                        {...getTableProps()}
+                      >
+                        <thead className="hidden border-b md:table-header-group">
+                          {headerGroups.map((headerGroup) => (
                             <tr
-                              className=""
-                              key={row.id}
-                              {...row.getRowProps()}
+                              key={headerGroup.id}
+                              {...headerGroup.getHeaderGroupProps()}
                             >
-                              {row.cells.map((cell) => (
+                              {headerGroup.headers.map((column) => (
                                 <td
-                                  key={cell.id}
-                                  {...cell.getCellProps()}
-                                  className="whitespace-no-wrap hidden py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left md:table-cell"
+                                  className="whitespace-normal py-4 text-sm font-semibold text-gray-800 sm:px-3"
+                                  key={column.id}
+                                  {...column.getHeaderProps(
+                                    column.getSortByToggleProps()
+                                  )}
                                 >
-                                  {cell.render("Cell")}
+                                  {column.render("Header")}
                                 </td>
                               ))}
                             </tr>
-                          );
-                        })}
-                      {users?.users.map((user, i) => (
-                        <tr className="mobile" key={i}>
-                          <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left">
-                            <div className="mt-1 flex flex-col text-xs font-medium md:hidden">
-                              <div className="flex items-center">
-                                Id: {user._id}
-                              </div>
-                              <div className="">Name:{user.name}</div>
-                              <div className="">Email: {user.email}</div>
-                              <div className="">Role: {user.role}</div>
-                            </div>
-                          </td>
+                          ))}
+                        </thead>
+                        <tbody
+                          {...getTableBodyProps()}
+                          className="bg-white lg:border-gray-300"
+                        >
+                          {page
+                            .filter((row) =>
+                              search.toLowerCase() === ""
+                                ? row
+                                : row.original.name
+                                    .toLowerCase()
+                                    .includes(search.toLowerCase())
+                            )
+                            .map((row) => {
+                              prepareRow(row);
+                              return (
+                                <tr
+                                  className=""
+                                  key={row.id}
+                                  {...row.getRowProps()}
+                                >
+                                  {row.cells.map((cell) => (
+                                    <td
+                                      key={cell.id}
+                                      {...cell.getCellProps()}
+                                      className="whitespace-no-wrap hidden py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left md:table-cell"
+                                    >
+                                      {cell.render("Cell")}
+                                    </td>
+                                  ))}
+                                </tr>
+                              );
+                            })}
+                          {users?.users.map((user, i) => (
+                            <tr className="mobile" key={i}>
+                              <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left">
+                                <div className="mt-1 flex flex-col text-xs font-medium md:hidden">
+                                  <div className="flex items-center">
+                                    Id: {user._id}
+                                  </div>
+                                  <div className="">Name:{user.name}</div>
+                                  <div className="">Email: {user.email}</div>
+                                  <div className="">Role: {user.role}</div>
+                                </div>
+                              </td>
 
-                          <td className="whitespace-no-wrap w-32 text-right text-sm text-gray-600 sm:px-3 lg:text-left md:hidden">
-                            <Link
-                              className="bg-green-500 hover:bg-green-600 py-1.5 px-6 rounded-lg text-white text-center text-sm lg:hidden"
-                              to={`/admin/user/${user._id}`}
-                            >
-                              Edit
-                            </Link>
-                            <button
-                              className="bg-green-200  py-1.5 px-4 mt-2 rounded-lg text-green-600 text-center text-sm lg:hidden"
-                              onClick={() =>
-                                handleDeleteConfirmation(user._id, user.email)
-                              }
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                              <td className="whitespace-no-wrap w-32 text-right text-sm text-gray-600 sm:px-3 lg:text-left md:hidden">
+                                <Link
+                                  className="bg-green-500 hover:bg-green-600 py-1.5 px-6 rounded-lg text-white text-center text-sm lg:hidden"
+                                  to={`/admin/user/${user._id}`}
+                                >
+                                  Edit
+                                </Link>
+                                <button
+                                  className="bg-green-200  py-1.5 px-4 mt-2 rounded-lg text-green-600 text-center text-sm lg:hidden"
+                                  onClick={() =>
+                                    handleDeleteConfirmation(
+                                      user._id,
+                                      user.email
+                                    )
+                                  }
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-center items-center">
+                    <button
+                      disabled={!canPreviousPage}
+                      className={clsx(
+                        "md:py-2 py-1 md:m-2 m-1  px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md ",
+                        canPreviousPage
+                          ? "cursor-pointer"
+                          : "cursor-not-allowed"
+                      )}
+                      onClick={() => gotoPage(0)}
+                    >
+                      First
+                    </button>
+                    <button
+                      className={clsx(
+                        "md:py-2 py-1 md:m-2 m-0  px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md",
+                        canPreviousPage
+                          ? "cursor-pointer"
+                          : "cursor-not-allowed"
+                      )}
+                      disabled={!canPreviousPage}
+                      onClick={previousPage}
+                    >
+                      Prev
+                    </button>
+                    <p className="text-sm md:text-base text-gray-700 mx-2">
+                      {pageIndex + 1} of {pageCount}
+                    </p>
+                    <button
+                      className={clsx(
+                        "md:py-2 py-1 md:m-2 m-1 px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md",
+                        canNextPage ? "cursor-pointer" : "cursor-not-allowed"
+                      )}
+                      disabled={!canNextPage}
+                      onClick={nextPage}
+                    >
+                      Next
+                    </button>
+                    <button
+                      className={clsx(
+                        "md:py-2 py-1 md:m-2 m-0  px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md",
+                        canNextPage ? "cursor-pointer" : "cursor-not-allowed"
+                      )}
+                      disabled={!canNextPage}
+                      onClick={() => gotoPage(pageCount - 1)}
+                    >
+                      Last
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex w-full justify-center items-center">
-                <button
-                  disabled={!canPreviousPage}
-                  className={clsx(
-                    "md:py-2 py-1 md:m-2 m-1  px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md ",
-                    canPreviousPage ? "cursor-pointer" : "cursor-not-allowed"
-                  )}
-                  onClick={() => gotoPage(0)}
-                >
-                  First
-                </button>
-                <button
-                  className={clsx(
-                    "md:py-2 py-1 md:m-2 m-0  px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md",
-                    canPreviousPage ? "cursor-pointer" : "cursor-not-allowed"
-                  )}
-                  disabled={!canPreviousPage}
-                  onClick={previousPage}
-                >
-                  Prev
-                </button>
-                <p className="text-sm md:text-base text-gray-700 mx-2">
-                  {pageIndex + 1} of {pageCount}
-                </p>
-                <button
-                  className={clsx(
-                    "md:py-2 py-1 md:m-2 m-1 px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md",
-                    canNextPage ? "cursor-pointer" : "cursor-not-allowed"
-                  )}
-                  disabled={!canNextPage}
-                  onClick={nextPage}
-                >
-                  Next
-                </button>
-                <button
-                  className={clsx(
-                    "md:py-2 py-1 md:m-2 m-0  px-2 md:px-4 text-sm md:text-base text-gray-700 hover:text-green-600 font-light bg-white shadow-sm rounded-md",
-                    canNextPage ? "cursor-pointer" : "cursor-not-allowed"
-                  )}
-                  disabled={!canNextPage}
-                  onClick={() => gotoPage(pageCount - 1)}
-                >
-                  Last
-                </button>
-              </div>
-            </div>
+              )}
+            </>
           )}
         </div>
       )}

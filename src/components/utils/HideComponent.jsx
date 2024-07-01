@@ -14,22 +14,17 @@ export const HideComponents = ({ children }) => {
       "/checkout",
       "/reset-password",
       "/change-password",
-      "/admin/dashboard",
-      "/admin/products",
-      "/admin/product/new",
-      "/admin/product/new/category",
-      "/admin/orders",
-      "/admin/users",
-      "/admin/reviews",
     ];
 
     if (
       hidePaths.includes(location.pathname) ||
+      location.pathname.startsWith("/admin/") ||
       location.pathname.startsWith("/product/edit/") ||
       location.pathname.startsWith("/admin/order/") ||
       location.pathname.startsWith("/admin/user/") ||
       location.pathname.startsWith("/success/") ||
-      location.pathname.startsWith("/users/")
+      location.pathname.startsWith("/users/") ||
+      location.pathname.startsWith("/password/reset/")
     ) {
       setShowComponent(false);
     } else {

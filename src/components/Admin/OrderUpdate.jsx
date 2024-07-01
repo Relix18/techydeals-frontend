@@ -23,7 +23,6 @@ const OrderUpdate = () => {
     reset,
     formState: { errors },
   } = useForm();
-  console.log(order);
 
   useEffect(() => {
     if (isSuccess) {

@@ -25,8 +25,6 @@ const EditProduct = () => {
     useUpdateProductMutation();
   const { register, handleSubmit, reset, control, setValue } = useForm();
 
-  console.log(error);
-
   useEffect(() => {
     setValue("name", product && product.product.name);
     setValue("price", product && product.product.price);
@@ -94,7 +92,7 @@ const EditProduct = () => {
       product: data,
       id: params.id,
     };
-    console.log(data);
+    data;
     updateProduct(product);
     reset();
     setPreviewImage([]);
@@ -216,7 +214,6 @@ const EditProduct = () => {
                     <Controller
                       control={control}
                       name="thumbnail"
-                      rules={{ required: "Thumbnail is required" }}
                       render={({ field }) => (
                         <div className="file">
                           <div
@@ -290,7 +287,6 @@ const EditProduct = () => {
                     <Controller
                       control={control}
                       name="images"
-                      rules={{ required: "Images is required" }}
                       render={({ field }) => (
                         <div className="file">
                           <div
@@ -375,7 +371,7 @@ const EditProduct = () => {
                     type="submit"
                     className="mt-5 w-full rounded-md bg-green-600 p-2 text-center font-semibold text-white"
                   >
-                    Create
+                    Update
                   </button>
                 </div>
               </form>

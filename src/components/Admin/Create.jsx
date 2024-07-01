@@ -26,8 +26,6 @@ const Create = () => {
     formState: { errors },
   } = useForm();
 
-  console.log(categories);
-
   useEffect(() => {
     isSuccess && toast.success("Product Created Successfully");
   }, [isSuccess]);

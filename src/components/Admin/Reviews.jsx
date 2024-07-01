@@ -270,7 +270,7 @@ const Reviews = () => {
                 </>
               )}
             </div>
-            {console.log(data)}
+
             {data.length !== 0 && (
               <div className="flex w-full justify-center items-center">
                 <button

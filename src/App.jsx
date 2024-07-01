@@ -85,21 +85,10 @@ function App() {
                 element={<Verification />}
               />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
               <Route
-                path="/forget-password"
-                element={
-                  <Protected>
-                    <ForgetPassword />
-                  </Protected>
-                }
-              />
-              <Route
-                path="/reset-password"
-                element={
-                  <Protected>
-                    <ResetPassword />
-                  </Protected>
-                }
+                path="/password/reset/:token"
+                element={<ResetPassword />}
               />
               <Route
                 path="/change-password"

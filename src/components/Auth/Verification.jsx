@@ -18,11 +18,9 @@ const Verification = () => {
   useEffect(() => {
     if (isSuccess) {
       setValidUrl(true);
-      console.log(user);
     }
     if (isError) {
       setValidUrl(false);
-      console.log(error);
     }
   }, [isSuccess, isError, user, error]);
 

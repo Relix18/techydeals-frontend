@@ -10,6 +10,7 @@ import {
   useGetAdminProductsQuery,
 } from "../../redux/api/product";
 import clsx from "clsx";
+import Loader from "../utils/Loader";
 
 const ProductList = () => {
   const { data: products, isLoading } = useGetAdminProductsQuery();
@@ -95,81 +96,83 @@ const ProductList = () => {
 
   return (
     <>
-      {!isLoading && (
-        <>
-          <Transition appear show={isDeleteConfirmationOpen} as={Fragment}>
-            <Dialog
-              as="div"
-              className="relative z-10"
-              onClose={() => setDeleteConfirmationOpen(false)}
-            >
+      <Transition appear show={isDeleteConfirmationOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setDeleteConfirmationOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
                 leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
               >
-                <div className="fixed inset-0 bg-black/25" />
-              </Transition.Child>
-
-              <div className="fixed inset-0 overflow-y-auto">
-                <div className="flex min-h-full items-center justify-center p-4 text-center">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
-                      >
-                        Are you sure you want to cancel this order?
-                      </Dialog.Title>
+                    Are you sure you want to cancel this order?
+                  </Dialog.Title>
 
-                      <div className="mt-4 flex w-full justify-center gap-4">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none "
-                          onClick={() => handleDeleteConfirmed()}
-                        >
-                          Yes
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
-                          onClick={() => setDeleteConfirmationOpen(false)}
-                        >
-                          No
-                        </button>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
-            </Dialog>
-          </Transition>
+                  <div className="mt-4 flex w-full justify-center gap-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none "
+                      onClick={() => handleDeleteConfirmed()}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                      onClick={() => setDeleteConfirmationOpen(false)}
+                    >
+                      No
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
 
-          {data && (
-            <div id="productListAdmin" className="flex bg-gray-100">
-              <Sidebar />
-              <div
-                id="toggleBtn"
-                className=" md:hidden z-50 absolute right-5 top-5 w-10 h-10 rounded-full text-white flex items-center justify-center bg-green-500"
-                onClick={() => setShowSidebar(!showSidebar)}
-              >
-                <FaBars className="text-xl" />
-              </div>
-              <SidebarMobile isOpen={showSidebar} />
+      {data && (
+        <div id="productListAdmin" className="flex bg-gray-100">
+          <Sidebar />
+          <div
+            id="toggleBtn"
+            className=" md:hidden z-50 absolute right-5 top-5 w-10 h-10 rounded-full text-white flex items-center justify-center bg-green-500"
+            onClick={() => setShowSidebar(!showSidebar)}
+          >
+            <FaBars className="text-xl" />
+          </div>
+          <SidebarMobile isOpen={showSidebar} />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
               {!showSidebar && (
-                <div className="w-screen bg-gray-100 h-screen">
+                <div className="w-screen bg-gray-100">
                   <div className="mx-auto max-w-screen-xl px-2 py-10">
                     <div className="mt-2 overflow-hidden rounded-xl bg-white px-6 shadow lg:px-4">
                       <div className="mt-4 mb-2 space-y-3">
@@ -222,7 +225,7 @@ const ProductList = () => {
                                     .includes(search.toLowerCase())
                             )
                             .map((row) => {
-                              console.log(row.original.name);
+                              row.original.name;
 
                               prepareRow(row);
                               return (
@@ -344,9 +347,9 @@ const ProductList = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </>
           )}
-        </>
+        </div>
       )}
     </>
   );

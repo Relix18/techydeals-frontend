@@ -4,7 +4,7 @@ const server = import.meta.env.VITE_BACKEND_URL;
 export const product = createApi({
   reducerPath: "product",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${server}/api/v1/product/`,
+    baseUrl: `/api/v1/product/`,
   }),
   tagTypes: ["Products", "AdminProducts", "Category"],
   endpoints: (builder) => ({

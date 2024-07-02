@@ -23,6 +23,7 @@ import Loader from "./utils/Loader";
 const subCategories = [{ name: "New Arrivals", href: "?newArrival=true" }];
 
 export default function Products() {
+  const [open, setOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [currentPageNo, setCurrentPageNo] = useState(1);
   const [searchParams] = useSearchParams();
@@ -182,6 +183,15 @@ export default function Products() {
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
                             <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                              <Link
+                                to="?newArrival=true"
+                                onClick={() => setMobileFiltersOpen(false)}
+                                className="font-medium text-gray-900"
+                              >
+                                New Arrivals
+                              </Link>
+                            </Disclosure.Button>
+                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
                               <span className="font-medium text-gray-900">
                                 Category
                               </span>
@@ -203,8 +213,10 @@ export default function Products() {
                           <Disclosure.Panel className="pt-6">
                             <div className="space-y-6">
                               {category?.categories.map((option, optionIdx) => (
-                                <div
+                                <Link
+                                  to={`?category=${option.value}`}
                                   key={option.value}
+                                  onClick={() => setMobileFiltersOpen(false)}
                                   className="flex items-center"
                                 >
                                   <div
@@ -213,7 +225,7 @@ export default function Products() {
                                   >
                                     {option.label}
                                   </div>
-                                </div>
+                                </Link>
                               ))}
                             </div>
                           </Disclosure.Panel>

@@ -4,7 +4,7 @@ const server = import.meta.env.VITE_BACKEND_URL;
 export const user = createApi({
   reducerPath: "user",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${server}/api/v1/`,
+    baseUrl: `/api/v1/`,
   }),
   tagTypes: ["User", "Address"],
   endpoints: (builder) => ({

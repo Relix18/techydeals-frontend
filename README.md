@@ -1,6 +1,6 @@
 # MERN E-COMMERCE FRONTEND
 
-Hi! My name is **Arif Ahmad**, I have created this project to learn some new features.
+I have created this project to learn some new features.
 
 # Prerequisite
 
